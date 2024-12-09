@@ -139,8 +139,11 @@ class ParticleFilter:
         weight = None
         # BEGIN_YOUR_CODE ######################################################
         #Hint: use the weight_gaussian_kernel method
-        predicted = sensor(particle.pos, particle.orient)
-        weight = weight_gaussian_kernel(evidence, predicted, std=50)
+        x, y = particle.pos
+        # Call sensor with x, y, and max_sensor_range
+        predicted = sensor(x, y, max_sensor_range)
+        # Compute the weight using the Gaussian kernel
+        weight = weight_gaussian_kernel(evidence, predicted, std=sensor_std)
         # END_YOUR_CODE ########################################################
         return weight
 
@@ -165,7 +168,7 @@ class ParticleFilter:
 
         #Hint: rotate the orientation by delta_angle, and then move in that
         # direction at the given speed over 1 unit of time. You will need to add
-        # noise at the end to simulate stochasticity in dynamics
+        # noise at the end to simulate stochasticsity in dynamics
     
     def fix_particle(self, particle):
         """
